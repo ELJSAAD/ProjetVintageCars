@@ -1,0 +1,71 @@
+{% extends 'cars/base.html' %}
+{% block content %}
+
+<h2 class="page-title"><i class="bi bi-speedometer2"></i>Tableau de bord — Conservateur</h2>
+
+<!-- STATS -->
+<div class="row g-3 mb-4">
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="s-icon"><i class="bi bi-car-front"></i></div>
+            <div class="s-num">{{ nb_vehicules }}</div>
+            <div class="s-label">Total Véhicules</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card" style="border-top-color:#7ab893;">
+            <div class="s-icon" style="color:#7ab893;"><i class="bi bi-check-circle"></i></div>
+            <div class="s-num">{{ nb_restaures }}</div>
+            <div class="s-label">Restaurés</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card" style="border-top-color:#d4a855;">
+            <div class="s-icon" style="color:#d4a855;"><i class="bi bi-wrench-adjustable"></i></div>
+            <div class="s-num">{{ nb_interventions }}</div>
+            <div class="s-label">Interventions</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card" style="border-top-color:#b8996e;">
+            <div class="s-icon" style="color:#b8996e;"><i class="bi bi-cash-coin"></i></div>
+            <div class="s-num" style="font-size:1.4rem;">{{ total_cout|floatformat:0 }}</div>
+            <div class="s-label">Coût total (MAD)</div>
+        </div>
+    </div>
+</div>
+
+<!-- RÉPARTITION -->
+<div class="row g-3 mb-4">
+    <div class="col-md-4">
+        <div class="card p-3 text-center">
+            <div style="font-size:.65rem; letter-spacing:2px; text-transform:uppercase; color:var(--text-muted-v); margin-bottom:.5rem;">En restauration</div>
+            <div style="font-family:'Playfair Display',serif; font-size:1.6rem; color:#d4a855;">{{ nb_en_restauration }}</div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card p-3 text-center">
+            <div style="font-size:.65rem; letter-spacing:2px; text-transform:uppercase; color:var(--text-muted-v); margin-bottom:.5rem;">Restaurés</div>
+            <div style="font-family:'Playfair Display',serif; font-size:1.6rem; color:#7ab893;">{{ nb_restaures }}</div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card p-3 text-center">
+            <div style="font-size:.65rem; letter-spacing:2px; text-transform:uppercase; color:var(--text-muted-v); margin-bottom:.5rem;">En attente</div>
+            <div style="font-family:'Playfair Display',serif; font-size:1.6rem; color:#b0a890;">{{ nb_en_attente }}</div>
+        </div>
+    </div>
+</div>
+
+<hr class="divider-gold">
+
+<!-- RACCOURCIS -->
+<div style="font-size:.68rem; letter-spacing:2.5px; text-transform:uppercase; color:var(--text-muted-v); margin-bottom:1rem;">Actions rapides</div>
+<div class="row g-3">
+    <div class="col-md-3"><a href="{% url 'vehicules' %}" class="sc-card"><i class="bi bi-search"></i><span>Rechercher</span></a></div>
+    <div class="col-md-3"><a href="{% url 'enregistrer_vehicule' %}" class="sc-card"><i class="bi bi-plus-circle"></i><span>Nouveau véhicule</span></a></div>
+    <div class="col-md-3"><a href="{% url 'saisir_intervention' %}" class="sc-card"><i class="bi bi-wrench-adjustable"></i><span>Intervention</span></a></div>
+    <div class="col-md-3"><a href="{% url 'taux_restauration' %}" class="sc-card"><i class="bi bi-bar-chart-line"></i><span>Statistiques</span></a></div>
+</div>
+
+{% endblock %}

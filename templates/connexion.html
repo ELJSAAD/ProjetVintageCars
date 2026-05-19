@@ -1,0 +1,46 @@
+{% extends 'cars/base.html' %}
+{% block content %}
+<div style="min-height:80vh; display:flex; align-items:center; justify-content:center;">
+    <div style="width:100%; max-width:420px;">
+
+        <!-- EN-TÊTE -->
+        <div class="text-center mb-4">
+            <div style="font-size:3rem; color:var(--gold); line-height:1;">&#9670;</div>
+            <h1 style="font-family:'Playfair Display',serif; font-size:2rem; color:var(--noir2); letter-spacing:3px; text-transform:uppercase; margin:.5rem 0 .2rem;">Vintage Cars</h1>
+            <p style="font-size:.7rem; letter-spacing:2.5px; text-transform:uppercase; color:var(--text-muted-v);">Système de gestion de restauration</p>
+        </div>
+
+        <!-- CARD CONNEXION -->
+        <div class="card p-4">
+            <div style="text-align:center; margin-bottom:1.5rem;">
+                <div style="height:1px; background:linear-gradient(to right,transparent,var(--gold),transparent); margin-bottom:1rem;"></div>
+                <p style="font-size:.68rem; letter-spacing:2px; text-transform:uppercase; color:var(--text-muted-v);">Accès sécurisé</p>
+            </div>
+
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label class="form-label">Nom d'utilisateur</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-person"></i></span>
+                        <input type="text" name="username" class="form-control" placeholder="Votre identifiant" required autofocus>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label class="form-label">Mot de passe</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                        <input type="password" name="password" class="form-control" placeholder="••••••••" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn-gold w-100 py-2" style="border-radius:2px; font-size:.8rem; letter-spacing:2px;">
+                    <i class="bi bi-box-arrow-in-right me-2"></i>SE CONNECTER
+                </button>
+            </form>
+
+            <div style="height:1px; background:linear-gradient(to right,transparent,var(--gold),transparent); margin-top:1.5rem;"></div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

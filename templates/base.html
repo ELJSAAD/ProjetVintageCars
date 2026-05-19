@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vintage Cars</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold:       #c8a96e;
+            --gold-light: #e2c99a;
+            --gold-dark:  #9a7a45;
+            --noir:       #0f0f0f;
+            --noir2:      #1a1814;
+            --noir3:      #252018;
+            --cuir:       #2e1f0f;
+            --cream:      #f5f0e8;
+            --cream2:     #ede5d8;
+            --text-muted-v: #a89880;
+        }
+        * { box-sizing: border-box; }
+        body { background: var(--cream); font-family: 'Raleway', sans-serif; color: #2a2018; }
+
+        /* NAVBAR */
+        .navbar { background: var(--noir2) !important; border-bottom: 1px solid var(--gold-dark); height: 62px; }
+        .navbar-brand { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: var(--gold) !important; letter-spacing: 2px; text-transform: uppercase; }
+        .navbar-brand span { color: var(--gold-light); font-weight: 400; }
+        .nav-link { color: #bbb !important; font-size: .75rem; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 500; padding: 0 .8rem !important; height: 62px; display: flex !important; align-items: center; border-bottom: 2px solid transparent; transition: all .2s; }
+        .nav-link:hover { color: var(--gold) !important; border-bottom-color: var(--gold); }
+        .nav-link i { margin-right: 5px; }
+        .dropdown-menu { background: var(--noir3); border: 1px solid var(--gold-dark); border-radius: 0; }
+        .dropdown-item { color: #ccc; font-size: .82rem; }
+        .dropdown-item:hover { background: var(--cuir); color: var(--gold); }
+        .badge-role { background: var(--gold-dark); color: var(--noir); font-size: .62rem; letter-spacing: 1px; text-transform: uppercase; padding: 2px 7px; border-radius: 2px; font-weight: 700; }
+
+        /* CONTENU */
+        .main-wrap { max-width: 1280px; margin: 0 auto; padding: 2.5rem 1.5rem; }
+
+        /* PAGE TITLE */
+        .page-title { font-family: 'Playfair Display', serif; font-size: 1.55rem; font-weight: 700; color: var(--noir2); margin-bottom: 1.8rem; padding-bottom: .6rem; border-bottom: 2px solid var(--gold); display: flex; align-items: center; gap: 10px; }
+        .page-title i { color: var(--gold); }
+
+        /* CARDS */
+        .card { background: #fff; border: 1px solid #e0d8cc; border-radius: 3px; box-shadow: 0 2px 10px rgba(0,0,0,.05); transition: box-shadow .2s, transform .2s; }
+        .card:hover { box-shadow: 0 6px 22px rgba(0,0,0,.09); }
+
+        /* STAT CARDS */
+        .stat-card { background: #fff; border: 1px solid #e0d8cc; border-top: 3px solid var(--gold); border-radius: 3px; padding: 1.4rem 1rem; text-align: center; }
+        .stat-card .s-icon { font-size: 1.9rem; color: var(--gold); }
+        .stat-card .s-num { font-family: 'Playfair Display', serif; font-size: 1.9rem; font-weight: 700; color: var(--noir2); }
+        .stat-card .s-label { font-size: .68rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-muted-v); margin-top: .2rem; }
+
+        /* BOUTONS */
+        .btn-gold { background: var(--gold); color: var(--noir); border: none; font-size: .75rem; letter-spacing: 1px; text-transform: uppercase; font-weight: 700; padding: .45rem 1.1rem; border-radius: 2px; transition: background .2s; }
+        .btn-gold:hover { background: var(--gold-light); color: var(--noir); }
+        .btn-noir { background: var(--noir2); color: var(--gold); border: 1px solid var(--gold-dark); font-size: .75rem; letter-spacing: 1px; text-transform: uppercase; padding: .45rem 1.1rem; border-radius: 2px; transition: all .2s; }
+        .btn-noir:hover { background: var(--cuir); color: var(--gold-light); }
+        .btn-ico { background: transparent; border: 1px solid #d0c8b8; color: #7a6a50; font-size: .78rem; padding: .3rem .65rem; border-radius: 2px; transition: all .2s; }
+        .btn-ico:hover { background: var(--noir2); color: var(--gold); border-color: var(--gold-dark); }
+        .btn-ico-danger { background: transparent; border: 1px solid #d4888a; color: #9a3030; font-size: .78rem; padding: .3rem .65rem; border-radius: 2px; transition: all .2s; }
+        .btn-ico-danger:hover { background: #9a3030; color: #fff; }
+
+        /* TABLEAUX */
+        .table-v thead tr { background: var(--noir2); }
+        .table-v thead th { color: var(--gold); font-size: .68rem; letter-spacing: 1.8px; text-transform: uppercase; padding: .85rem 1rem; border: none; font-weight: 600; }
+        .table-v tbody tr { border-bottom: 1px solid #ede5d8; transition: background .15s; }
+        .table-v tbody tr:hover { background: #faf6f0; }
+        .table-v tbody td { padding: .78rem 1rem; vertical-align: middle; border: none; color: #3a2e22; font-size: .88rem; }
+
+        /* BADGES STATUT */
+        .bv { font-size: .65rem; letter-spacing: 1px; text-transform: uppercase; font-weight: 700; padding: 3px 9px; border-radius: 2px; }
+        .bv-en_restauration { background: #f5e6cc; color: #7a4f00; border: 1px solid #d4a855; }
+        .bv-restaure        { background: #d4edda; color: #155724; border: 1px solid #7ab893; }
+        .bv-en_attente      { background: #e8e4dc; color: #5a5040; border: 1px solid #b0a890; }
+        .bv-a_vendre        { background: #d8e8f5; color: #0d3d5c; border: 1px solid #7aabcc; }
+
+        /* FORMULAIRES */
+        .form-control, .form-select { border: 1px solid #d0c8b8; border-radius: 2px; font-family: 'Raleway', sans-serif; font-size: .88rem; background: #fefcf8; color: #2a2018; }
+        .form-control:focus, .form-select:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(200,169,110,.15); }
+        .form-label { font-size: .7rem; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: #6a5840; margin-bottom: .35rem; display: block; }
+        .input-group-text { background: var(--noir2); color: var(--gold); border: 1px solid var(--gold-dark); }
+
+        /* ALERTS */
+        .alert { border-radius: 2px; font-size: .88rem; }
+        .alert-success { background: #f0f7f0; border-color: #7ab893; color: #155724; }
+        .alert-danger  { background: #fdf0f0; border-color: #d4888a; color: #721c24; }
+        .alert-info    { background: #f0f4f8; border-color: #7aabcc; color: #0c3d5c; }
+
+        /* SHORTCUT */
+        .sc-card { background: #fff; border: 1px solid #e0d8cc; border-top: 3px solid var(--gold); border-radius: 3px; padding: 1.5rem 1rem; text-align: center; text-decoration: none; color: var(--noir2); display: block; transition: all .25s; }
+        .sc-card:hover { background: var(--noir2); color: var(--gold); transform: translateY(-4px); box-shadow: 0 10px 28px rgba(0,0,0,.15); }
+        .sc-card i { font-size: 1.9rem; display: block; margin-bottom: .6rem; color: var(--gold); }
+        .sc-card:hover i { color: var(--gold-light); }
+        .sc-card span { font-size: .7rem; letter-spacing: 1.8px; text-transform: uppercase; font-weight: 700; }
+
+        /* PROGRESS */
+        .progress { background: #e8e0d4; border-radius: 2px; }
+        .progress-bar-v { background: linear-gradient(to right, var(--gold-dark), var(--gold)); color: var(--noir); font-weight: 700; font-size: .75rem; }
+
+        /* CODE VIN */
+        code { background: var(--noir2); color: var(--gold-light); padding: 2px 7px; border-radius: 2px; font-size: .8rem; }
+
+        /* FORM CARD */
+        .form-card { background: #fff; border: 1px solid #e0d8cc; border-radius: 3px; padding: 2rem; max-width: 680px; }
+        .form-card-title { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--noir2); margin-bottom: 1.5rem; padding-bottom: .5rem; border-bottom: 1px solid var(--gold-dark); letter-spacing: 1px; }
+
+        /* FOOTER */
+        .site-footer { background: var(--noir2); border-top: 1px solid var(--gold-dark); color: var(--text-muted-v); text-align: center; padding: 1.1rem; margin-top: 4rem; font-size: .7rem; letter-spacing: 1.5px; text-transform: uppercase; }
+        .site-footer span { color: var(--gold); }
+
+        /* DIVIDER */
+        .divider-gold { height: 1px; background: linear-gradient(to right, transparent, var(--gold), transparent); margin: 2rem 0; border: none; }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg">
+    <div class="container-fluid px-4">
+        <a class="navbar-brand" href="{% url 'dashboard' %}">&#9670; VINTAGE <span>CARS</span></a>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+            <i class="bi bi-list" style="color:var(--gold);font-size:1.5rem;"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navMenu">
+            {% if user.is_authenticated %}
+                {% if user.profil.role == 'conservateur' %}
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'dashboard_conservateur' %}"><i class="bi bi-speedometer2"></i>Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'vehicules' %}"><i class="bi bi-search"></i>Véhicules</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'enregistrer_vehicule' %}"><i class="bi bi-plus-circle"></i>Nouveau</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'saisir_intervention' %}"><i class="bi bi-wrench-adjustable"></i>Intervention</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'taux_restauration' %}"><i class="bi bi-bar-chart-line"></i>Statistiques</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'gerer_utilisateurs' %}"><i class="bi bi-people"></i>Utilisateurs</a></li>
+
+                </ul>
+                {% elif user.profil.role == 'mecanicien' %}
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'dashboard_mecanicien' %}"><i class="bi bi-house"></i>Accueil</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'vehicules' %}"><i class="bi bi-search"></i>Véhicules</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'saisir_intervention' %}"><i class="bi bi-wrench-adjustable"></i>Intervention</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'taux_restauration' %}"><i class="bi bi-bar-chart-line"></i>Statistiques</a></li>
+                </ul>
+                {% endif %}
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                            <i class="bi bi-person-circle"></i> {{ user.username }}
+                            <span class="badge-role ms-1">{{ user.profil.role }}</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="{% url 'deconnexion' %}"><i class="bi bi-box-arrow-right me-2"></i>Déconnexion</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            {% else %}
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'connexion' %}"><i class="bi bi-box-arrow-in-right"></i>Connexion</a></li>
+                </ul>
+            {% endif %}
+        </div>
+    </div>
+</nav>
+
+<div class="main-wrap">
+    {% for message in messages %}
+    <div class="alert alert-{% if 'error' in message.tags %}danger{% elif 'success' in message.tags %}success{% else %}info{% endif %} alert-dismissible fade show mb-4">
+        {% if 'success' in message.tags %}<i class="bi bi-check-circle me-2"></i>{% elif 'error' in message.tags %}<i class="bi bi-exclamation-circle me-2"></i>{% else %}<i class="bi bi-info-circle me-2"></i>{% endif %}
+        {{ message }}<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    {% endfor %}
+    {% block content %}{% endblock %}
+</div>
+
+<footer class="site-footer">
+    <p>© 2026 &nbsp;&#9670;&nbsp; <span>Vintage Cars</span> &nbsp;&#9670;&nbsp; Gestion de restauration de véhicules anciens</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

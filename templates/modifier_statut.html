@@ -1,0 +1,33 @@
+{% extends 'cars/base.html' %}
+{% block content %}
+
+<h2 class="page-title"><i class="bi bi-arrow-repeat"></i>Modifier le statut</h2>
+
+<div class="form-card" style="max-width:420px;">
+    <div class="form-card-title"><i class="bi bi-car-front me-2" style="color:var(--gold);"></i>{{ vehicule }}</div>
+
+    <div class="mb-3 p-3" style="background:var(--cream2); border-left:3px solid var(--gold); border-radius:2px;">
+        <div style="font-size:.65rem; letter-spacing:1.5px; text-transform:uppercase; color:var(--text-muted-v); margin-bottom:.3rem;">Statut actuel</div>
+        <span class="bv bv-{{ vehicule.statut }}">{{ vehicule.get_statut_display }}</span>
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-4">
+            <label class="form-label">Nouveau statut</label>
+            <select name="statut" class="form-select form-select-lg">
+                <option value="en_attente"      {% if vehicule.statut == 'en_attente' %}selected{% endif %}>En attente</option>
+                <option value="en_restauration" {% if vehicule.statut == 'en_restauration' %}selected{% endif %}>En restauration</option>
+                <option value="restaure"        {% if vehicule.statut == 'restaure' %}selected{% endif %}>Restauré</option>
+                <option value="a_vendre"        {% if vehicule.statut == 'a_vendre' %}selected{% endif %}>À vendre</option>
+            </select>
+        </div>
+        <hr class="divider-gold">
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn-gold"><i class="bi bi-check-circle me-1"></i>Enregistrer</button>
+            <a href="{% url 'detail_vehicule' vehicule.pk %}" class="btn-noir">Annuler</a>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

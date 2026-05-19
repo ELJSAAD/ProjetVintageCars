@@ -1,0 +1,47 @@
+{% extends 'cars/base.html' %}
+{% block content %}
+
+<h2 class="page-title"><i class="bi bi-house"></i>Tableau de bord — Mécanicien</h2>
+
+<!-- RACCOURCIS -->
+<div class="row g-3 mb-4">
+    <div class="col-md-4"><a href="{% url 'vehicules' %}" class="sc-card"><i class="bi bi-search"></i><span>Rechercher véhicules</span></a></div>
+    <div class="col-md-4"><a href="{% url 'saisir_intervention' %}" class="sc-card"><i class="bi bi-wrench-adjustable"></i><span>Saisir intervention</span></a></div>
+    <div class="col-md-4"><a href="{% url 'taux_restauration' %}" class="sc-card"><i class="bi bi-bar-chart-line"></i><span>Taux restauration</span></a></div>
+</div>
+
+<hr class="divider-gold">
+
+<!-- DERNIÈRES INTERVENTIONS -->
+<div style="font-size:.68rem; letter-spacing:2.5px; text-transform:uppercase; color:var(--text-muted-v); margin-bottom:1rem;"><i class="bi bi-clock-history me-2" style="color:var(--gold);"></i>Dernières interventions</div>
+
+<div class="card">
+    <table class="table table-v mb-0">
+        <thead>
+            <tr>
+                <th>Type d'intervention</th>
+                <th>Véhicule</th>
+                <th>Date</th>
+                <th>Coût</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in dernieres_interventions %}
+            <tr>
+                <td><i class="bi bi-wrench me-2" style="color:var(--gold);"></i>{{ i.type }}</td>
+                <td>{{ i.vehicule }}</td>
+                <td>{{ i.date }}</td>
+                <td style="font-family:'Playfair Display',serif; color:var(--gold-dark);">{{ i.cout }} MAD</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4" class="text-center py-4" style="color:var(--text-muted-v); font-size:.8rem; letter-spacing:1px;">
+                    <i class="bi bi-inbox me-2"></i>Aucune intervention enregistrée
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

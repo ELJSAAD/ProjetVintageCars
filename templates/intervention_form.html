@@ -1,0 +1,64 @@
+{% extends 'cars/base.html' %}
+{% block content %}
+
+<h2 class="page-title">
+    <i class="bi bi-wrench-adjustable"></i>
+    {% if vehicule %}Saisir une intervention — {{ vehicule }}{% else %}Saisir une intervention{% endif %}
+</h2>
+
+<div class="form-card">
+    <div class="form-card-title"><i class="bi bi-tools me-2" style="color:var(--gold);"></i>Détails de l'intervention</div>
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="mb-3">
+            <label class="form-label">Véhicule</label>
+            <select name="vehicule" class="form-select" required>
+                {% for v in form.vehicule.field.queryset %}
+                <option value="{{ v.id }}"
+                    {% if vehicule and vehicule.id == v.id %}selected{% endif %}
+                    {% if form.vehicule.value == v.id|stringformat:"s" %}selected{% endif %}>
+                    {{ v }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Type d'intervention</label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-tools"></i></span>
+                <input type="text" name="type" class="form-control" value="{{ form.type.value|default:'' }}" placeholder="Ex: Révision moteur, Peinture carrosserie..." required>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Date</label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-calendar3"></i></span>
+                <input type="date" name="date" class="form-control" value="{{ form.date.value|default:'' }}" required>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Coût (MAD)</label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-cash-coin"></i></span>
+                <input type="number" name="cout" class="form-control" value="{{ form.cout.value|default:'' }}" step="0.01" min="0" placeholder="Montant en MAD" required>
+                <span class="input-group-text" style="background:var(--cream2); color:var(--gold-dark); border-color:#d0c8b8;">MAD</span>
+            </div>
+        </div>
+
+        <hr class="divider-gold">
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn-gold"><i class="bi bi-check-circle me-1"></i>Enregistrer l'intervention</button>
+            {% if vehicule %}
+            <a href="{% url 'detail_vehicule' vehicule.pk %}" class="btn-noir">Annuler</a>
+            {% else %}
+            <a href="{% url 'vehicules' %}" class="btn-noir">Annuler</a>
+            {% endif %}
+        </div>
+    </form>
+</div>
+
+{% endblock %}

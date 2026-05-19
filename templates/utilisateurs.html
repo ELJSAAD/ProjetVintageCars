@@ -1,0 +1,61 @@
+{% extends 'cars/base.html' %}
+{% block content %}
+
+<h2 class="page-title"><i class="bi bi-people"></i>Gestion des utilisateurs</h2>
+
+<div class="card">
+    <div style="background:var(--noir2); color:var(--gold); font-size:.7rem; letter-spacing:2px; text-transform:uppercase; padding:.8rem 1.2rem; font-weight:700;">
+        <i class="bi bi-people me-2"></i>Liste des membres
+    </div>
+    <table class="table table-v mb-0">
+        <thead>
+            <tr><th>Utilisateur</th><th>Email</th><th>Rôle actuel</th><th>Modifier le rôle</th></tr>
+        </thead>
+        <tbody>
+            {% for p in utilisateurs %}
+            <tr>
+                <td>
+                    <i class="bi bi-person-circle me-2" style="color:var(--gold);"></i>
+                    <strong>{{ p.utilisateur.username }}</strong>
+                </td>
+                <td style="color:var(--text-muted-v);">{{ p.utilisateur.email }}</td>
+                <td>
+                    <span class="bv {% if p.role == 'conservateur' %}bv-restaure{% else %}bv-a_vendre{% endif %}">
+                        {{ p.role }}
+                    </span>
+                </td>
+                <td>
+                    <form method="post" class="d-flex align-items-center gap-2">
+                        {% csrf_token %}
+                        <input type="hidden" name="user_id" value="{{ p.utilisateur.id }}">
+                        <select name="role" class="form-select form-select-sm" style="max-width:160px;">
+                            <option value="conservateur" {% if p.role == 'conservateur' %}selected{% endif %}>Conservateur</option>
+                            <option value="mecanicien"   {% if p.role == 'mecanicien' %}selected{% endif %}>Mécanicien</option>
+                        </select>
+                        <button type="submit" class="btn-gold" style="padding:.3rem .8rem; white-space:nowrap;">
+                            <i class="bi bi-check2 me-1"></i>Appliquer
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4" class="text-center py-4" style="color:var(--text-muted-v); font-size:.8rem; letter-spacing:1px;">
+                    <i class="bi bi-inbox me-2"></i>Aucun utilisateur trouvé
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<p class="mt-3" style="font-size:.75rem; color:var(--text-muted-v); letter-spacing:.5px;">
+    <i class="bi bi-info-circle me-1" style="color:var(--gold);"></i>
+    Pour créer de nouveaux utilisateurs, utilisez l'interface <a href="/admin/" style="color:var(--gold-dark);">Admin Django</a>, puis attribuez un profil.
+</p>
+
+<div class="mt-3">
+    <a href="{% url 'dashboard_conservateur' %}" class="btn-noir"><i class="bi bi-arrow-left me-1"></i>Retour</a>
+</div>
+
+{% endblock %}

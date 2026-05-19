@@ -1,0 +1,69 @@
+{% extends 'cars/base.html' %}
+{% block content %}
+
+<h2 class="page-title"><i class="bi bi-car-front"></i>{{ titre }}</h2>
+
+<div class="form-card">
+    <div class="form-card-title"><i class="bi bi-card-list me-2" style="color:var(--gold);"></i>Informations du véhicule</div>
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="mb-3">
+            <label class="form-label">Marque</label>
+            <select name="marque" class="form-select" required>
+                {% for m in form.marque.field.queryset %}
+                <option value="{{ m.id }}" {% if form.marque.value == m.id|stringformat:"s" %}selected{% endif %}>{{ m.nom_marque }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Modèle</label>
+            <input type="text" name="modele" class="form-control" value="{{ form.modele.value|default:'' }}" placeholder="Ex: Mustang GT" required>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Année (1900 – 1999)</label>
+                <input type="number" name="annee" class="form-control" value="{{ form.annee.value|default:'' }}" min="1900" max="1999" required>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Châssis VIN (17 caractères)</label>
+                <input type="text" name="chassis" class="form-control" value="{{ form.chassis.value|default:'' }}" maxlength="17" placeholder="17 caractères" required>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Statut</label>
+            <select name="statut" class="form-select">
+                <option value="en_attente"      {% if form.statut.value == 'en_attente' %}selected{% endif %}>En attente</option>
+                <option value="en_restauration" {% if form.statut.value == 'en_restauration' %}selected{% endif %}>En restauration</option>
+                <option value="restaure"        {% if form.statut.value == 'restaure' %}selected{% endif %}>Restauré</option>
+                <option value="a_vendre"        {% if form.statut.value == 'a_vendre' %}selected{% endif %}>À vendre</option>
+            </select>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Nombre de cylindres</label>
+                <input type="number" name="cylindres" class="form-control" value="{{ form.cylindres.value|default:'' }}" min="1" required>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Cylindrée (cm³)</label>
+                <input type="number" name="cylindree" class="form-control" value="{{ form.cylindree.value|default:'' }}" min="1" required>
+            </div>
+        </div>
+
+        {% for field in form %}{% for error in field.errors %}
+        <div class="alert alert-danger py-2 mb-2" style="font-size:.82rem;"><i class="bi bi-exclamation-circle me-2"></i>{{ field.label }} : {{ error }}</div>
+        {% endfor %}{% endfor %}
+
+        <hr class="divider-gold">
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn-gold"><i class="bi bi-check-circle me-1"></i>{{ action }}</button>
+            <a href="{% url 'vehicules' %}" class="btn-noir">Annuler</a>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

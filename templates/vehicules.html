@@ -1,0 +1,101 @@
+{% extends 'cars/base.html' %}
+{% block content %}
+
+<h2 class="page-title"><i class="bi bi-search"></i>Parc de véhicules</h2>
+
+<!-- FILTRES -->
+<div class="card p-3 mb-4">
+    <div style="font-size:.65rem; letter-spacing:2px; text-transform:uppercase; color:var(--text-muted-v); margin-bottom:.8rem;"><i class="bi bi-funnel me-1" style="color:var(--gold);"></i>Filtres de recherche</div>
+    <form method="get">
+        <div class="row g-2">
+            <div class="col-md-3">
+                <input type="text" name="q" class="form-control" placeholder="Marque, modèle, VIN..." value="{{ form.q.value|default:'' }}">
+            </div>
+            <div class="col-md-2">
+                <select name="marque" class="form-select">
+                    <option value="">Toutes les marques</option>
+                    {% for m in form.marque.field.queryset %}
+                    <option value="{{ m.id }}" {% if form.marque.value == m.id|stringformat:"s" %}selected{% endif %}>{{ m.nom_marque }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-2">
+                <select name="statut" class="form-select">
+                    <option value="">Tous les statuts</option>
+                    <option value="en_restauration">En restauration</option>
+                    <option value="restaure">Restauré</option>
+                    <option value="en_attente">En attente</option>
+                    <option value="a_vendre">À vendre</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <input type="number" name="annee_min" class="form-control" placeholder="Année min" value="{{ form.annee_min.value|default:'' }}">
+            </div>
+            <div class="col-md-2">
+                <input type="number" name="annee_max" class="form-control" placeholder="Année max" value="{{ form.annee_max.value|default:'' }}">
+            </div>
+            <div class="col-md-1">
+                <button type="submit" class="btn-gold w-100 py-2"><i class="bi bi-search"></i></button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- BARRE D'ACTIONS -->
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <span style="font-size:.75rem; letter-spacing:1px; color:var(--text-muted-v);">
+        <strong style="color:var(--noir2); font-family:'Playfair Display',serif;">{{ vehicules.count }}</strong> véhicule(s) trouvé(s)
+    </span>
+    {% if user.profil.role == 'conservateur' %}
+    <a href="{% url 'enregistrer_vehicule' %}" class="btn-gold">
+        <i class="bi bi-plus-circle me-1"></i>Nouveau véhicule
+    </a>
+    {% endif %}
+</div>
+
+<!-- TABLEAU -->
+<div class="card">
+    <table class="table table-v mb-0">
+        <thead>
+            <tr>
+                <th>Marque</th><th>Modèle</th><th>Année</th>
+                <th>Décennie</th><th>Châssis (VIN)</th>
+                <th>Statut</th><th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for v in vehicules %}
+            <tr>
+                <td style="font-weight:600;">{{ v.marque }}</td>
+                <td style="font-family:'Playfair Display',serif;">{{ v.modele }}</td>
+                <td>{{ v.annee }}</td>
+                <td><span class="bv bv-en_attente">{{ v.get_decade }}</span></td>
+                <td><code>{{ v.chassis }}</code></td>
+                <td><span class="bv bv-{{ v.statut }}">{{ v.get_statut_display }}</span></td>
+                <td>
+                    <div class="d-flex gap-1">
+                        <a href="{% url 'detail_vehicule' v.pk %}" class="btn-ico" title="Détail"><i class="bi bi-eye"></i></a>
+                        <a href="{% url 'modifier_statut' v.pk %}" class="btn-ico" title="Statut"><i class="bi bi-arrow-repeat"></i></a>
+                        {% if user.profil.role == 'conservateur' %}
+                        <a href="{% url 'modifier_vehicule' v.pk %}" class="btn-ico" title="Modifier"><i class="bi bi-pencil"></i></a>
+                        <a href="{% url 'supprimer_vehicule' v.pk %}" class="btn-ico-danger" title="Supprimer" onclick="return confirm('Supprimer ce véhicule ?')"><i class="bi bi-trash"></i></a>
+                        {% endif %}
+                    </div>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="7" class="text-center py-5" style="color:var(--text-muted-v); font-size:.8rem; letter-spacing:1px;">
+                    <i class="bi bi-inbox me-2" style="font-size:1.5rem; display:block; margin-bottom:.5rem;"></i>Aucun véhicule trouvé
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="mt-3">
+    <a href="{% url 'dashboard' %}" class="btn-noir"><i class="bi bi-arrow-left me-1"></i>Retour</a>
+</div>
+
+{% endblock %}
